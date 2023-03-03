@@ -26,7 +26,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#define clear() printf("\033[H\033[J")
+#include "common.h"
 
 /* cấu trúc của 1 node */
 typedef struct node_
@@ -41,7 +41,6 @@ typedef struct list_
     node_t *pHead; /* node quản lí đầu danh sách liên kết đơn */
     node_t *pTail; /* node quản lí cuối danh sách liên kết đơn*/
 } list_t;
-
 
 /* Khởi tạo cấu trúc của 1 danh sách liên kết đơn */
 void create_list(list_t *list)
@@ -158,38 +157,82 @@ void menu_conf()
     }
 }
 
+// int main()
+// {
+//     int i, n;
+//     list_t list;
+//     node_t *pnode;
+
+//     menu_conf();
+
+//     printf("Hello linked list\n");
+
+//     create_list(&list);
+
+//     printf("Nhập số lượng node cần thêm: ");
+//     scanf("%d", &n);
+//     for (i = 1; i <= n; i++)
+//     {
+//         int x;
+//         printf("Nhập giá trị của node %d: ", i);
+//         scanf("%d", &x);
+//         pnode = create_node(x);
+//         printf("pnode is value: %d\n", pnode->val);
+
+//         add_node_head(&list, pnode);
+//     }
+
+//     printf("Xuất danh sách liên kết đơn\n");
+//     output_list(list);
+
+//     /*
+//      * Khi delete 1 node chúng ta cần free vùng nhớ đó bởi vì đã dùng malloc
+//      * Còn khi create 1 node thì chúng ta không được free bởi node đó đang được sử dụng trong list.
+//      */
+
+//     return 0;
+// }
 int main()
 {
-    int i, n;
-    list_t list;
-    node_t *pnode;
-
-    menu_conf();
-
+    int i, n, max;
+    node_ctx *node;
     printf("Hello linked list\n");
+    list_ctx ctx;
+    list_create(&ctx);
 
-    create_list(&list);
-
-    printf("Nhập số lượng node cần thêm: ");
+    printf("Enter element: ");
     scanf("%d", &n);
     for (i = 1; i <= n; i++)
     {
         int x;
-        printf("Nhập giá trị của node %d: ", i);
+        printf("Enter value node %d: ", i);
         scanf("%d", &x);
-        pnode = create_node(x);
-        printf("pnode is value: %d\n", pnode->val);
-
-        add_node_head(&list, pnode);
+        node = node_create(x);
+        list_add_head(node, &ctx);
     }
 
-    printf("Xuất danh sách liên kết đơn\n");
-    output_list(list);
+    printf("Output linked list\n");
+    list_out(ctx);
 
-    /*
-     * Khi delete 1 node chúng ta cần free vùng nhớ đó bởi vì đã dùng malloc
-     * Còn khi create 1 node thì chúng ta không được free bởi node đó đang được sử dụng trong list.
-     */
+    max = list_search_max(ctx);
+    printf("Max: %d\n", max);
+
+    printf("Enter element: ");
+    scanf("%d", &n);
+    for (i = 1; i <= n; i++)
+    {
+        int x;
+        printf("Enter value node %d: ", i);
+        scanf("%d", &x);
+        node = node_create(x);
+        list_add_tail(node, &ctx);
+    }
+
+    printf("Output linked list\n");
+    list_out(ctx);
+
+    max = list_search_max(ctx);
+    printf("Max: %d\n", max);
 
     return 0;
 }
