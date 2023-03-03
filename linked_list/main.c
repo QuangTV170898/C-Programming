@@ -42,6 +42,7 @@ typedef struct list_
     node_t *pTail; /* node quản lí cuối danh sách liên kết đơn*/
 } list_t;
 
+
 /* Khởi tạo cấu trúc của 1 danh sách liên kết đơn */
 void create_list(list_t *list)
 {
